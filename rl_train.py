@@ -9,7 +9,7 @@ from torch.distributions import Categorical
 from attention_model import AttentionModel
 import time
 from tensorboardX import SummaryWriter
-
+from tqdm import tqdm
 gamma = 0.99
 episode_number = 1280*100
 
@@ -58,7 +58,7 @@ def train_episode(return_log_p, rewards_):
 
 
 def main():
-    
+
     total_reward_list = []
     true_episode = 0
     npy_id = 0
@@ -67,7 +67,7 @@ def main():
         # self._1280_eps = np.load("/opt/tiger/fanzhiyun/data/ami/prepare_for_RL/epoch_1.npy")
         _1280_eps = np.load("./data/arr_"+ str(npy_id) +".npy")
 
-        for i in range(len(_1280_eps)//batch_size):
+        for i in tqdm(range(len(_1280_eps)//batch_size)):
             batch_data = torch.from_numpy(_1280_eps[i:i+batch_size]).to(torch.float32)
 
             print("time begin::", time.asctime(time.localtime(time.time())))

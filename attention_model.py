@@ -13,7 +13,7 @@ from torch.nn import DataParallel
 from torch.distributions import Categorical
 from metric.segmentation import SegmentationPurityCoverageFMeasure
 metric = SegmentationPurityCoverageFMeasure()
-
+from tqdm import tqdm
 
 class ScdStateMaker(nn.Module):
     def __init__(self, ori_states):
@@ -233,9 +233,10 @@ class AttentionModel(nn.Module):
         self.scd_state_maker = ScdStateMaker(input)
 
         # Perform decoding steps
-        i = 0
+        # i = 0
         peak_rewards = torch.full([self.bacth_size, 1], 10)
-        while i < self.episode_length:
+
+        for i in tqdm(range(self.episode_length)):
             print("i_step:", i)
             state = input[:, i]  ## torch.Size([64, 122])
 
@@ -243,7 +244,7 @@ class AttentionModel(nn.Module):
             # Collect output of step
             log_p_s.append(log_p)
             actions_s.append(action.numpy())
-            i += 1
+            # i += 1
 
             ### 计算 预测正确转换点的 rewards
             label = state[:, [-1]]
