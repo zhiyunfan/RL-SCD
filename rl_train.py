@@ -21,7 +21,7 @@ normalization = 'batch'
 tanh_clipping = 10.0
 episode_length = 400
 batch_size = 16
-
+file_num = 1
 
 writer = SummaryWriter(logdir='log_dir')
 
@@ -58,7 +58,7 @@ def train_episode(return_log_p, rewards_):
 
 
 def main():
-    file_num = 1
+    
     total_reward_list = []
     true_episode = 0
     npy_id = 0
